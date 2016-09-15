@@ -1,3 +1,4 @@
+from builtins import zip
 import numpy as np
 import numpy.ma as ma
 import unittest
@@ -15,7 +16,7 @@ def makeDataValues(size=100, min=0., max=1., random=True):
         randorder = np.random.rand(size)
         randind = np.argsort(randorder)
         datavalues = datavalues[randind]
-    datavalues = np.array(zip(datavalues), dtype=[('testdata', 'float')])
+    datavalues = np.array(list(zip(datavalues)), dtype=[('testdata', 'float')])
     return datavalues
 
 

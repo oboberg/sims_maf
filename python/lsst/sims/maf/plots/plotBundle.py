@@ -1,3 +1,4 @@
+from builtins import object
 from .plotHandler import PlotHandler
 import matplotlib.pylab as plt
 
@@ -51,7 +52,7 @@ class PlotBundle(object):
         """
         maxOrder = 0
         for mB in self.bundleList:
-            if 'order' in mB.displayDict.keys():
+            if 'order' in list(mB.displayDict.keys()):
                 maxOrder = max([maxOrder, mB.displayDict['order']])
 
         for mB in self.bundleList:
@@ -63,9 +64,9 @@ class PlotBundle(object):
         """
         for i, mB in enumerate(self.bundleList):
             if mB.summaryValues is not None:
-                keys = mB.summaryValues.keys()
+                keys = list(mB.summaryValues.keys())
                 if ('25th%ile' in keys) & ('75th%ile' in keys) & ('Median' in keys):
-                    if 'label' not in self.plotDicts[i].keys():
+                    if 'label' not in list(self.plotDicts[i].keys()):
                         self.plotDicts[i]['label'] = ''
                     newstr = '%0.1f/%0.1f/%0.1f ' % (mB.summaryValues['25th%ile'],
                                                      mB.summaryValues['Median'],

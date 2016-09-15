@@ -1,3 +1,6 @@
+from builtins import zip
+from builtins import map
+from builtins import object
 # Base class for metrics - defines methods which must be implemented.
 # If a metric calculates a vector or list at each gridpoint, then there
 #  should be additional 'reduce_*' functions defined, to convert the vector
@@ -9,6 +12,7 @@
 import numpy as np
 import inspect
 from lsst.sims.maf.stackers.getColInfo import ColInfo
+from future.utils import with_metaclass
 
 __all__ = ['MetricRegistry', 'BaseMetric']
 
@@ -92,7 +96,7 @@ class ColRegistry(object):
                     self.stackerDict[col] = source
 
 
-class BaseMetric(object):
+class BaseMetric(with_metaclass(MetricRegistry, object)):
     """
     Base class for the metrics.
     Sets up some basic functionality for the MAF framework: after __init__ every metric will
@@ -118,7 +122,6 @@ class BaseMetric(object):
     badval : float
         The value indicating "bad" values calculated by the metric.
     """
-    __metaclass__ = MetricRegistry
     colRegistry = ColRegistry()
     colInfo = ColInfo()
 
@@ -154,7 +157,7 @@ class BaseMetric(object):
         # Identify type of metric return value.
         if metricDtype is not None:
             self.metricDtype = metricDtype
-        elif len(self.reduceFuncs.keys()) > 0:
+        elif len(list(self.reduceFuncs.keys())) > 0:
             self.metricDtype = 'object'
         else:
             self.metricDtype = 'float'

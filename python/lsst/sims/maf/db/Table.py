@@ -1,3 +1,4 @@
+from builtins import zip
 __author__ = 'simon'
 
 import numpy as np
@@ -43,12 +44,12 @@ class Table(CatalogDBObject):
     def _get_column_query(self, doGroupBy, colnames=None, aggregate=func.min):
         # Build the sql query - including adding all column names, if columns were None.
         if colnames is None:
-            colnames = [k for k in self.columnMap.keys()]
+            colnames = [k for k in list(self.columnMap.keys())]
         try:
             vals = [self.columnMap[k] for k in colnames]
         except KeyError:
             for c in colnames:
-                if c in self.columnMap.keys():
+                if c in list(self.columnMap.keys()):
                     continue
                 else:
                     print("%s not in columnMap"%(c))
@@ -119,5 +120,5 @@ class Table(CatalogDBObject):
             simdata = np.hstack(chunkList)
         else: # If there were no results from query, return an empty array
             dt = ['float']*len(colnames)
-            simdata = np.zeros(0, dtype=zip(colnames, dt))
+            simdata = np.zeros(0, dtype=list(zip(colnames, dt)))
         return simdata

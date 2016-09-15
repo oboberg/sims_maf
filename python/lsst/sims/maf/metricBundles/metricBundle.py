@@ -1,3 +1,5 @@
+from builtins import zip
+from builtins import object
 import os
 from copy import deepcopy
 import numpy as np
@@ -438,7 +440,7 @@ class MetricBundle(object):
             self.summaryValues = {}
         if self.summaryMetrics is not None:
             # Build array of metric values, to use for (most) summary statistics.
-            rarr_std = np.array(zip(self.metricValues.compressed()),
+            rarr_std = np.array(list(zip(self.metricValues.compressed())),
                                 dtype=[('metricdata', self.metricValues.dtype)])
             for m in self.summaryMetrics:
                 # The summary metric colname should already be set to 'metricdata', but in case it's not:
@@ -447,7 +449,7 @@ class MetricBundle(object):
                 if hasattr(m, 'maskVal'):
                     # summary metric requests to use the mask value, as specified by itself,
                     #  rather than skipping masked vals.
-                    rarr = np.array(zip(self.metricValues.filled(m.maskVal)),
+                    rarr = np.array(list(zip(self.metricValues.filled(m.maskVal))),
                                     dtype=[('metricdata', self.metricValues.dtype)])
                 else:
                     rarr = rarr_std
@@ -506,7 +508,7 @@ class MetricBundle(object):
         # Build a new output file root name.
         newmetricBundle._buildFileRoot()
         # Add existing plotDict (except for title/xlabels etc) into new plotDict.
-        for k, v in self.plotDict.iteritems():
+        for k, v in self.plotDict.items():
             if k not in newmetricBundle.plotDict:
                 newmetricBundle.plotDict[k] = v
         # Update newmetricBundle's plot dictionary with any set explicitly by reducePlotDict.

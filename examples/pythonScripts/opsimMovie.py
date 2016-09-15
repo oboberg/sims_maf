@@ -1,3 +1,5 @@
+from builtins import zip
+from builtins import str
 # python $SIMS_MAF_DIR/examples/pythonScripts/opsimMovie.py enigma_1189_sqlite.db --sqlConstraint 'night=130' --outDir Output
 #
 # --ips = number of images to stitch together per second of view (default is 10).

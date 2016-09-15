@@ -6,7 +6,7 @@ import numpy as np
 import lsst.sims.maf.db as db
 import lsst.sims.maf.utils.outputUtils as out
 import lsst.utils.tests
-
+from future.types.newstr import newstr
 
 class TestOpsimDb(unittest.TestCase):
     """Test opsim specific database class."""
@@ -40,7 +40,7 @@ class TestOpsimDb(unittest.TestCase):
     def testOpsimDbPropID(self):
         """Test queries for prop ID"""
         propids, propTags = self.oo.fetchPropInfo()
-        self.assertTrue(len(propids.keys()) > 0)
+        self.assertTrue(len(list(propids.keys())) > 0)
         self.assertTrue(len(propTags['WFD']) > 0)
         self.assertTrue(len(propTags['DD']) > 0)
         for w in propTags['WFD']:
@@ -55,10 +55,10 @@ class TestOpsimDb(unittest.TestCase):
         self.assertEqual(dataAll.dtype.names, ('fieldID', 'fieldRA', 'fieldDec'))
         # Fetch field data for all fields requested by a particular propid.
         propids, proptags = self.oo.fetchPropInfo()
-        propid = propids.keys()[0]
+        propid = list(propids.keys())[0]
         dataProp1 = self.oo.fetchFieldsFromFieldTable(propID=propid)
         # Fetch field data for all fields requested by all proposals.
-        dataPropAll = self.oo.fetchFieldsFromFieldTable(propID=propids.keys())
+        dataPropAll = self.oo.fetchFieldsFromFieldTable(propID=list(propids.keys()))
         self.assertTrue(dataProp1.size < dataPropAll.size)
         # And check that did not return multiple copies of the same field.
         self.assertEqual(len(dataPropAll['fieldID']), len(np.unique(dataPropAll['fieldID'])))
@@ -71,7 +71,7 @@ class TestOpsimDb(unittest.TestCase):
     def testOpsimDbSimName(self):
         """Test query for opsim name."""
         simname = self.oo.fetchOpsimRunName()
-        self.assertTrue(isinstance(simname, str))
+        self.assertTrue(isinstance(simname, newstr))
         self.assertEqual(simname, 'opsimblitz1_1133')
 
     def testOpsimDbSeeingColName(self):

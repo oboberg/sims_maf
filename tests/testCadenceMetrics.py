@@ -1,3 +1,5 @@
+from builtins import zip
+from builtins import range
 import matplotlib
 matplotlib.use("Agg")
 import numpy as np
@@ -12,7 +14,7 @@ class TestCadenceMetrics(unittest.TestCase):
         """
         Test the phase gap metric
         """
-        data = np.zeros(10, dtype=zip(['expMJD'], [float]))
+        data = np.zeros(10, dtype=list(zip(['expMJD'], [float])))
         data['expMJD'] += np.arange(10)*.25
 
         pgm = metrics.PhaseGapMetric(nPeriods=1, periodMin=0.5, periodMax=0.5)
@@ -47,7 +49,7 @@ class TestCadenceMetrics(unittest.TestCase):
         """
         names = ['expMJD', 'filter', 'fiveSigmaDepth']
         types = [float, '|S1', float]
-        data = np.zeros(700, dtype=zip(names, types))
+        data = np.zeros(700, dtype=list(zip(names, types)))
         data['expMJD'] = np.arange(0., 100., 1/7.)  # So, 100 days are well sampled in 2 filters
         data['filter'] = 'r'
         data['filter'][np.arange(0, 700, 2)] = 'g'
@@ -65,7 +67,7 @@ class TestCadenceMetrics(unittest.TestCase):
         """
         names = ['finSeeing', 'expMJD']
         types = [float, float]
-        data = np.zeros(10, dtype=zip(names, types))
+        data = np.zeros(10, dtype=list(zip(names, types)))
         data['finSeeing'] = [2., 2., 3., 1., 1., 1., 0.5, 1., 0.4, 1.]
         data['expMJD'] = np.arange(10)
         slicePoint = {'sid': 0}
@@ -77,7 +79,7 @@ class TestCadenceMetrics(unittest.TestCase):
     def testUniformityMetric(self):
         names = ['expMJD']
         types = [float]
-        data = np.zeros(100, dtype=zip(names, types))
+        data = np.zeros(100, dtype=list(zip(names, types)))
         metric = metrics.UniformityMetric()
         result1 = metric.run(data)
         # If all the observations are on the 1st day, should be 1
@@ -93,14 +95,14 @@ class TestCadenceMetrics(unittest.TestCase):
         # Result should be zero for uniform
         np.testing.assert_almost_equal(result3, 0.)
         # A single obseravtion should give a result of 1
-        data = np.zeros(1, dtype=zip(names, types))
+        data = np.zeros(1, dtype=list(zip(names, types)))
         result4 = metric.run(data, slicePoint)
         assert(result4 == 1)
 
     def testTGapMetric(self):
         names = ['expMJD']
         types = [float]
-        data = np.zeros(100, dtype=zip(names, types))
+        data = np.zeros(100, dtype=list(zip(names, types)))
         # All 1-day gaps
         data['expMJD'] = np.arange(100)
 
@@ -114,7 +116,7 @@ class TestCadenceMetrics(unittest.TestCase):
         assert(result2[1] == data.size-1)
         assert(np.sum(result2) == data.size-1)
 
-        data = np.zeros(4, dtype=zip(names, types))
+        data = np.zeros(4, dtype=list(zip(names, types)))
         data['expMJD'] = [10, 20, 30, 40]
         metric = metrics.TgapsMetric(allGaps=True, bins=np.arange(1, 100, 10))
         result3 = metric.run(data)
@@ -123,7 +125,7 @@ class TestCadenceMetrics(unittest.TestCase):
         assert(np.sum(result3) == Ngaps)
 
     def testRapidRevisitMetric(self):
-        data = np.zeros(100, dtype=zip(['expMJD'], [float]))
+        data = np.zeros(100, dtype=list(zip(['expMJD'], [float])))
         # Uniformly distribute time _differences_ between 0 and 100
         dtimes = np.arange(100)
         data['expMJD'] = dtimes.cumsum()
@@ -155,7 +157,7 @@ class TestCadenceMetrics(unittest.TestCase):
         print "RapidRevisit .. range", resmin, resmax
 
     def testNRevisitsMetric(self):
-        data = np.zeros(100, dtype=zip(['expMJD'], [float]))
+        data = np.zeros(100, dtype=list(zip(['expMJD'], [float])))
         dtimes = np.arange(100)/24./60.
         data['expMJD'] = dtimes.cumsum()
         metric = metrics.NRevisitsMetric(dT=50.)
@@ -170,7 +172,7 @@ class TestCadenceMetrics(unittest.TestCase):
         types = [float, float, '|S1']
 
         ndata = 100
-        dataSlice = np.zeros(ndata, dtype=zip(names, types))
+        dataSlice = np.zeros(ndata, dtype=list(zip(names, types)))
         dataSlice['expMJD'] = np.arange(ndata)
         dataSlice['fiveSigmaDepth'] = 25
         dataSlice['filter'] = 'g'

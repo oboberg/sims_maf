@@ -1,3 +1,5 @@
+from builtins import str
+from builtins import object
 import os
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.engine import url

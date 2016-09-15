@@ -1,3 +1,6 @@
+from builtins import str
+from builtins import map
+from builtins import range
 import sys
 import numpy as np
 
@@ -52,7 +55,7 @@ def _myformat(args, delimiter=' '):
 def _myformatdict(adict, delimiter=' '):
     # Generic line formatter used for dictionaries.
     writestring = ''
-    for k, v in adict.iteritems():
+    for k, v in adict.items():
         if isinstance(v, list):
             if len(v) > 1:
                 vp = ','.join(map(str, v))
@@ -150,7 +153,7 @@ def printSimpleDict(topdict, subkeyorder, filehandle=None, delimiter=' '):
     # Get all sub-level keys.
     subkeys = []
     for key in topdict:
-        subkeys += topdict[key].keys()
+        subkeys += list(topdict[key].keys())
     subkeys = list(set(subkeys))
     # Align subkeys with 'subkeyorder' and then alphabetize any remaining.
     missingkeys = set(subkeyorder).difference(set(subkeys))

@@ -1,7 +1,10 @@
+from builtins import zip
+from builtins import object
 import inspect
 import warnings
 import numpy as np
 import numpy.lib.recfunctions as rfn
+from future.utils import with_metaclass
 
 __all__ = ['StackerRegistry', 'BaseStacker']
 
@@ -44,9 +47,8 @@ class StackerRegistry(type):
                 print ' Default columns required: ', ','.join(stacker.colsReq)
 
 
-class BaseStacker(object):
+class BaseStacker(with_metaclass(StackerRegistry, object)):
     """Base MAF Stacker: add columns generated at run-time to the simdata array."""
-    __metaclass__ = StackerRegistry
 
     def __init__(self):
         """
@@ -83,7 +85,7 @@ class BaseStacker(object):
         # We assume that they are equal, unless they have specific attributes which are different.
         stateNow = dir(self)
         for key in stateNow:
-            if not key.startswith('_') and key != 'registry' and key != 'run':
+            if not key.startswith('_') and key != 'registry' and key != 'run' and key != 'next':
                 if not hasattr(otherStacker, key):
                     return False
                 # If the attribute is from numpy, assume it's an array and test it

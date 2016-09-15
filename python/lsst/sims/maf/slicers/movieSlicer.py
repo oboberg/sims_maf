@@ -1,3 +1,4 @@
+from builtins import str
 # cumulative one dimensional movie slicer
 import os
 import warnings

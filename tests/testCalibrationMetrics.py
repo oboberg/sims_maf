@@ -1,3 +1,4 @@
+from builtins import zip
 import matplotlib
 matplotlib.use("Agg")
 import numpy as np
@@ -15,7 +16,7 @@ class TestCalibrationMetrics(unittest.TestCase):
         """
         names = ['expMJD', 'finSeeing', 'fiveSigmaDepth', 'fieldRA', 'fieldDec', 'filter']
         types = [float, float, float, float, float, '|S1']
-        data = np.zeros(700, dtype=zip(names, types))
+        data = np.zeros(700, dtype=list(zip(names, types)))
         slicePoint = {'sid': 0}
         data['expMJD'] = np.arange(700)+56762
         data['finSeeing'] = 0.7
@@ -55,7 +56,7 @@ class TestCalibrationMetrics(unittest.TestCase):
         """
         names = ['expMJD', 'finSeeing', 'fiveSigmaDepth', 'fieldRA', 'fieldDec', 'filter']
         types = [float, float, float, float, float, '|S1']
-        data = np.zeros(700, dtype=zip(names, types))
+        data = np.zeros(700, dtype=list(zip(names, types)))
         slicePoint = [0]
         stacker = stackers.ParallaxFactorStacker()
         normFlags = [False, True]
@@ -101,7 +102,7 @@ class TestCalibrationMetrics(unittest.TestCase):
         names = ['expMJD', 'finSeeing', 'fiveSigmaDepth', 'fieldRA', 'fieldDec',
                  'filter', 'ra_pi_amp', 'dec_pi_amp']
         types = [float, float, float, float, float, '|S1', float, float]
-        data = np.zeros(100, dtype=zip(names, types))
+        data = np.zeros(100, dtype=list(zip(names, types)))
         data['filter'] = 'r'
         data['fiveSigmaDepth'] = 25.
         data['ra_pi_amp'] = 1.
@@ -142,7 +143,7 @@ class TestCalibrationMetrics(unittest.TestCase):
                  'filter', 'ra_pi_amp', 'dec_pi_amp', 'ra_dcr_amp', 'dec_dcr_amp']
         types = [float, float, float, float, float, '|S1', float,
                  float, float, float]
-        data = np.zeros(100, dtype=zip(names, types))
+        data = np.zeros(100, dtype=list(zip(names, types)))
         data['filter'] = 'r'
         data['fiveSigmaDepth'] = 25.
 
@@ -182,7 +183,7 @@ class TestCalibrationMetrics(unittest.TestCase):
 
         names = ['fieldRA', 'fieldDec']
         dt = ['float']*2
-        data = np.zeros(3, dtype=zip(names, dt))
+        data = np.zeros(3, dtype=list(zip(names, dt)))
         data['fieldDec'] = [-.1, 0, .1]
         slicePoint = {'ra': 0., 'dec': 0.}
         metric = metrics.RadiusObsMetric()
