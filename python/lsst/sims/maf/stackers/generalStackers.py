@@ -19,7 +19,8 @@ class NormAirmassStacker(BaseStacker):
     """
     Calculate the normalized airmass for each opsim pointing.
     """
-    def __init__(self, airmassCol='airmass', decCol='fieldDec', telescope_lat = -30.2446388):
+
+    def __init__(self, airmassCol='airmass', decCol='fieldDec', telescope_lat=-30.2446388):
 
         self.units = ['airmass/(minimum possible airmass)']
         self.colsAdded = ['normairmass']
@@ -43,7 +44,8 @@ class ZenithDistStacker(BaseStacker):
     """
     Calculate the zenith distance for each pointing.
     """
-    def __init__(self, altCol = 'altitude'):
+
+    def __init__(self, altCol='altitude'):
         self.altCol = altCol
         self.units = ['radians']
         self.colsAdded = ['zenithDistance']
@@ -60,6 +62,7 @@ class ParallaxFactorStacker(BaseStacker):
     """
     Calculate the parallax factors for each opsim pointing.  Output parallax factor in arcseconds.
     """
+
     def __init__(self, raCol='fieldRA', decCol='fieldDec', dateCol='expMJD'):
         self.raCol = raCol
         self.decCol = decCol
@@ -148,7 +151,7 @@ class DcrStacker(BaseStacker):
         self.colsReq = [filterCol, raCol, decCol, altCol, lstCol]
         self.units = ['arcsec', 'arcsec']
 
-        self.zstacker = ZenithDistStacker(altCol = altCol)
+        self.zstacker = ZenithDistStacker(altCol=altCol)
         self.pastacker = ParallacticAngleStacker(raCol=raCol, decCol=decCol, mjdCol=mjdCol,
                                                  lstCol=lstCol, site=site)
 
@@ -173,6 +176,7 @@ class HourAngleStacker(BaseStacker):
     """
     Add the Hour Angle for each observation.
     """
+
     def __init__(self, lstCol='lst', RaCol='fieldRA'):
         self.units = ['Hours']
         self.colsAdded = ['HA']
@@ -203,6 +207,7 @@ class ParallacticAngleStacker(BaseStacker):
     """
     Add the parallactic angle (in radians) to each visit.
     """
+
     def __init__(self, raCol='fieldRA', decCol='fieldDec', mjdCol='expMJD',
                  lstCol='lst', site='LSST'):
 
@@ -225,8 +230,8 @@ class ParallacticAngleStacker(BaseStacker):
         # http://www.gb.nrao.edu/GBT/DA/gbtidl/release2pt9/contrib/contrib/parangle.pro
         simData = self.haStacker._run(simData)
         simData['PA'] = np.arctan2(np.sin(simData['HA']*np.pi/12.), (np.cos(simData[self.decCol]) *
-                                   np.tan(self.site.latitude_rad) - np.sin(simData[self.decCol]) *
-                                   np.cos(simData['HA']*np.pi/12.)))
+                                                                     np.tan(self.site.latitude_rad) - np.sin(simData[self.decCol]) *
+                                                                     np.cos(simData['HA']*np.pi/12.)))
         return simData
 
 
@@ -234,6 +239,7 @@ class FilterColorStacker(BaseStacker):
     """
     Translate filters ('u', 'g', 'r' ..) into RGB tuples.
     """
+
     def __init__(self, filterCol='filter', filterMap={'u': 1, 'g': 2, 'r': 3, 'i': 4, 'z': 5, 'y': 6}):
         self.filter_rgb_map = {'u': (0, 0, 1),   # dark blue
                                'g': (0, 1, 1),  # cyan
@@ -271,6 +277,7 @@ class SeasonStacker(BaseStacker):
     The season index range is 0-10.
     Must wrap 0th and 10th to get a total of 10 seasons.
     """
+
     def __init__(self, expMJDCol='expMJD', RACol='fieldRA'):
         # Names of columns we want to add.
         self.colsAdded = ['year', 'season']
@@ -300,4 +307,3 @@ class SeasonStacker(BaseStacker):
         simData['year'] = year
         simData['season'] = season
         return simData
-

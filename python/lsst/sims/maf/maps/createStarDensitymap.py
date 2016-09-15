@@ -20,7 +20,6 @@ if __name__ == '__main__':
     from lsst.sims.catUtils.baseCatalogModels import *
     from lsst.sims.catUtils.exampleCatalogDefinitions import *
 
-
     parser = argparse.ArgumentParser(description="Build a stellar density healpix map")
     parser.add_argument("--filtername", type=str, default='r', help="which filter: u, g, r, i, z, y")
     parser.add_argument("--stars", type=str, default='allstars', help="the stellar type to pull from CatSim")

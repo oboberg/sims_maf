@@ -3,6 +3,7 @@ from .baseMetric import BaseMetric
 
 __all__ = ['TransientMetric']
 
+
 class TransientMetric(BaseMetric):
     """
     Calculate what fraction of the transients would be detected. Best paired with a spatial slicer.
@@ -67,6 +68,7 @@ class TransientMetric(BaseMetric):
         'partialLC', then the max number of possible transients is taken to be
         the integer floor
     """
+
     def __init__(self, metricName='TransientDetectMetric', mjdCol='expMJD',
                  m5Col='fiveSigmaDepth', filterCol='filter',
                  transDuration=10., peakTime=5., riseSlope=0., declineSlope=0.,

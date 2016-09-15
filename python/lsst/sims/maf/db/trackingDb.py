@@ -28,10 +28,12 @@ class RunRow(Base):
     opsimDate = Column(String)
     mafDate = Column(String)
     dbFile = Column(String)
+
     def __repr__(self):
         rstr = "<Run(mafRunId='%d', opsimRun='%s', opsimComment='%s', mafComment='%s', " % (self.mafRunId, self.opsimRun,
-                                                                                          self.opsimComment, self.mafComment)
-        rstr += "mafDir='%s', opsimDate='%s', mafDate='%s', dbFile='%s'>" %(self.mafDir, self.opsimDate, self.mafDate, self.dbFile)
+                                                                                            self.opsimComment, self.mafComment)
+        rstr += "mafDir='%s', opsimDate='%s', mafDate='%s', dbFile='%s'>" % (
+            self.mafDir, self.opsimDate, self.mafDate, self.dbFile)
         return rstr
 
 
@@ -50,7 +52,7 @@ class TrackingDb(object):
             self.database = os.path.join(os.getcwd(), 'trackingDb_sqlite.db')
             self.driver = 'sqlite'
         else:
-            self.database  = database
+            self.database = database
             self.driver = driver
             self.host = host
             self.port = port
@@ -59,22 +61,23 @@ class TrackingDb(object):
             dbAddress = url.URL(drivername=self.driver, database=self.database)
         else:
             dbAddress = url.URL(self.driver,
-                            username=DbAuth.username(self.host, str(self.port)),
-                            password=DbAuth.password(self.host, str(self.port)),
-                            host=self.host,
-                            port=self.port,
-                            database=self.database)
+                                username=DbAuth.username(self.host, str(self.port)),
+                                password=DbAuth.password(self.host, str(self.port)),
+                                host=self.host,
+                                port=self.port,
+                                database=self.database)
 
         engine = create_engine(dbAddress, echo=self.verbose)
         if self.verbose:
-            print 'Created or connected to MAF tracking %s database at %s' %(self.driver, self.database)
+            print 'Created or connected to MAF tracking %s database at %s' % (self.driver, self.database)
         self.Session = sessionmaker(bind=engine)
         self.session = self.Session()
         # Create the tables, if they don't already exist.
         try:
             Base.metadata.create_all(engine)
         except DatabaseError:
-            raise DatabaseError("Cannot create a %s database at %s. Check directory exists." %(self.driver, self.database))
+            raise DatabaseError("Cannot create a %s database at %s. Check directory exists." %
+                                (self.driver, self.database))
 
     def close(self):
         self.session.close()
@@ -102,7 +105,7 @@ class TrackingDb(object):
                 runIds = []
                 for run in prevruns:
                     runIds.append(run.mafRunId)
-                print 'This maf directory %s is already present in tracking db with mafRunId(s) %s.' %(mafDir, runIds)
+                print 'This maf directory %s is already present in tracking db with mafRunId(s) %s.' % (mafDir, runIds)
                 print 'Not currently adding this run to tracking DB (use override=True to add anyway).'
                 return runIds[0]
         # Run did not exist in database or we received override: add it.
@@ -118,10 +121,10 @@ class TrackingDb(object):
         """
         runinfo = self.session.query(RunRow).filter_by(mafRunId=runId).all()
         if len(runinfo) == 0:
-            raise Exception('Could not find run with mafRunId %d' %(runId))
+            raise Exception('Could not find run with mafRunId %d' % (runId))
         if len(runinfo) > 1:
-            raise Exception('Found more than one run with mafRunId %d' %(runId))
-        print 'Removing run info for runId %d ' %(runId)
+            raise Exception('Found more than one run with mafRunId %d' % (runId))
+        print 'Removing run info for runId %d ' % (runId)
         print ' ', runinfo
         self.session.delete(runinfo[0])
         self.session.commit()

@@ -153,6 +153,7 @@ class RandomDitherFieldPerVisitStacker(BaseStacker):
         If set, then used as the random seed for the numpy random number generation for the dither offsets.
         Default None.
     """
+
     def __init__(self, raCol='fieldRA', decCol='fieldDec', maxDither=1.75,
                  inHex=True, randomSeed=None):
         """
@@ -245,6 +246,7 @@ class RandomDitherFieldPerNightStacker(RandomDitherFieldPerVisitStacker):
         If set, then used as the random seed for the numpy random number generation for the dither offsets.
         Default None.
     """
+
     def __init__(self, raCol='fieldRA', decCol='fieldDec', fieldIdCol='fieldID', nightCol='night',
                  maxDither=1.75, inHex=True, randomSeed=None):
         """
@@ -319,6 +321,7 @@ class RandomDitherPerNightStacker(RandomDitherFieldPerVisitStacker):
         If set, then used as the random seed for the numpy random number generation for the dither offsets.
         Default None.
     """
+
     def __init__(self, raCol='fieldRA', decCol='fieldDec', nightCol='night',
                  maxDither=1.75, inHex=True, randomSeed=None):
         """
@@ -384,6 +387,7 @@ class SpiralDitherFieldPerVisitStacker(BaseStacker):
         If False, offsets can lie anywhere out to the edges of the maxDither circle.
         Default True.
     """
+
     def __init__(self, raCol='fieldRA', decCol='fieldDec', fieldIdCol='fieldID',
                  numPoints=60, maxDither=1.75, nCoils=5, inHex=True):
         """
@@ -481,6 +485,7 @@ class SpiralDitherFieldPerNightStacker(SpiralDitherFieldPerVisitStacker):
         If False, offsets can lie anywhere out to the edges of the maxDither circle.
         Default True.
     """
+
     def __init__(self, raCol='fieldRA', decCol='fieldDec', fieldIdCol='fieldID', nightCol='night',
                  numPoints=60, maxDither=1.75, nCoils=5, inHex=True):
         """
@@ -550,6 +555,7 @@ class SpiralDitherPerNightStacker(SpiralDitherFieldPerVisitStacker):
         If False, offsets can lie anywhere out to the edges of the maxDither circle.
         Default True.
     """
+
     def __init__(self, raCol='fieldRA', decCol='fieldDec', fieldIdCol='fieldID', nightCol='night',
                  numPoints=60, maxDither=1.75, nCoils=5, inHex=True):
         """
@@ -604,6 +610,7 @@ class HexDitherFieldPerVisitStacker(BaseStacker):
         If False, offsets can lie anywhere out to the edges of the maxDither circle.
         Default True.
     """
+
     def __init__(self, raCol='fieldRA', decCol='fieldDec', fieldIdCol='fieldID', maxDither=1.75, inHex=True):
         """
         @ MaxDither in degrees
@@ -697,6 +704,7 @@ class HexDitherFieldPerNightStacker(HexDitherFieldPerVisitStacker):
         If False, offsets can lie anywhere out to the edges of the maxDither circle.
         Default True.
     """
+
     def __init__(self, raCol='fieldRA', decCol='fieldDec', fieldIdCol='fieldIdCol', nightCol='night',
                  maxDither=1.75, inHex=True):
         """
@@ -759,6 +767,7 @@ class HexDitherPerNightStacker(HexDitherFieldPerVisitStacker):
         If False, offsets can lie anywhere out to the edges of the maxDither circle.
         Default True.
     """
+
     def __init__(self, raCol='fieldRA', decCol='fieldDec', fieldIdCol='fieldID',
                  nightCol='night', maxDither=1.75, inHex=True):
         """

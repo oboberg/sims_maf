@@ -5,6 +5,7 @@ __all__ = ['SupernovaMetric', 'TemplateExistsMetric', 'UniformityMetric',
            'RapidRevisitMetric', 'NRevisitsMetric', 'IntraNightGapsMetric',
            'InterNightGapsMetric', 'AveGapMetric']
 
+
 class SupernovaMetric(BaseMetric):
     """Measure how many time series meet a given time and filter distribution requirement.
 
@@ -52,6 +53,7 @@ class SupernovaMetric(BaseMetric):
     In the science book, the metric demands Nfilt observations above a SNR cut.
     Here, we demand Nfilt observations near the peak with a given singleDepthLimt.
     """
+
     def __init__(self, metricName='SupernovaMetric',
                  mjdCol='expMJD', filterCol='filter', m5Col='fiveSigmaDepth',
                  units='', redshift=0.,
@@ -152,7 +154,7 @@ class SupernovaMetric(BaseMetric):
                                 for f in ufilters:
                                     if np.max(visits[self.m5Col][nearPeak]
                                               [np.where(visits[self.filterCol][nearPeak] == f)]) \
-                                              > self.singleDepthLimit:
+                                            > self.singleDepthLimit:
                                         filtersBrightEnough += 1
                                 if filtersBrightEnough >= self.Nfilt:
                                     if np.size(nearPeak) >= 2:
@@ -187,9 +189,11 @@ class SupernovaMetric(BaseMetric):
             result = self.badval
         return result
 
+
 class TemplateExistsMetric(BaseMetric):
     """Calculate the fraction of images with a previous template image of desired quality.
     """
+
     def __init__(self, seeingCol='FWHMgeom', expMJDCol='expMJD',
                  metricName='TemplateExistsMetric', **kwargs):
         cols = [seeingCol, expMJDCol]
@@ -224,6 +228,7 @@ class TemplateExistsMetric(BaseMetric):
         frac = (good.size) / float(dataSlice[self.seeingCol].size)
         return frac
 
+
 class UniformityMetric(BaseMetric):
     """Calculate how uniformly the observations are spaced in time.
     Returns a value between -1 and 1.
@@ -234,6 +239,7 @@ class UniformityMetric(BaseMetric):
     surveyLength : float, optional
         The overall duration of the survey. Default 10.
     """
+
     def __init__(self, expMJDCol='expMJD', units='',
                  surveyLength=10., **kwargs):
         """surveyLength = time span of survey (years) """
@@ -270,6 +276,7 @@ class UniformityMetric(BaseMetric):
         D_max = np.max(np.abs(n_cum - dates - dates[1]))
         return D_max
 
+
 class RapidRevisitMetric(BaseMetric):
     """Calculate uniformity of time between consecutive visits on short timescales (for RAV1).
 
@@ -285,6 +292,7 @@ class RapidRevisitMetric(BaseMetric):
     dTmax : float, optional
         The maximum dTime to consider (in days). Default 30 minutes.
     """
+
     def __init__(self, timeCol='expMJD', minNvisits=100,
                  dTmin=40.0 / 60.0 / 60.0 / 24.0, dTmax=30.0 / 60.0 / 24.0,
                  metricName='RapidRevisit', **kwargs):
@@ -331,6 +339,7 @@ class RapidRevisitMetric(BaseMetric):
         dmax = np.max(np.abs(uniform_dtimes - dtimes - dtimes[1]))
         return dmax
 
+
 class NRevisitsMetric(BaseMetric):
     """Calculate the number of (consecutive) visits with time differences less than dT.
 
@@ -342,6 +351,7 @@ class NRevisitsMetric(BaseMetric):
        Flag to indicate whether to return the total number of consecutive visits with time
        differences less than dT (False), or the fraction of overall visits (True).
     """
+
     def __init__(self, timeCol='expMJD', dT=30.0, normed=False, metricName=None, **kwargs):
         units = None
         if metricName is None:
@@ -376,6 +386,7 @@ class NRevisitsMetric(BaseMetric):
         if self.normed:
             nFastRevisits = nFastRevisits / float(np.size(dataSlice[self.timeCol]))
         return nFastRevisits
+
 
 class IntraNightGapsMetric(BaseMetric):
     """
@@ -434,6 +445,7 @@ class InterNightGapsMetric(BaseMetric):
        Function that can operate on array-like structures. Typically numpy function.
        Default np.median.
     """
+
     def __init__(self, timeCol='expMJD', nightCol='night', reduceFunc=np.median,
                  metricName='Median Inter-Night Gap', **kwargs):
         units = 'days'
@@ -480,6 +492,7 @@ class AveGapMetric(BaseMetric):
        Function that can operate on array-like structures. Typically numpy function.
        Default np.median.
     """
+
     def __init__(self, timeCol='expMJD', nightCol='night', reduceFunc=np.median,
                  metricName='AveGap', **kwargs):
         units = 'hours'

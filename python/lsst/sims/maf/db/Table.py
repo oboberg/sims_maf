@@ -10,6 +10,7 @@ with warnings.catch_warnings():
     warnings.simplefilter("ignore", UserWarning)
     from lsst.sims.catalogs.db import CatalogDBObject, ChunkIterator
 
+
 class Table(CatalogDBObject):
     skipRegistration = True
     objid = 'sims_maf'
@@ -100,7 +101,6 @@ class Table(CatalogDBObject):
             query = query.limit(numLimit)
         return ChunkIterator(self, query, chunk_size)
 
-
     def query_columns_Array(self, colnames=None, chunk_size=1000000, constraint=None,
                             groupByCol=None, numLimit=None):
         """Same as query_columns, but returns a numpy rec array instead. """
@@ -119,5 +119,5 @@ class Table(CatalogDBObject):
             simdata = np.hstack(chunkList)
         else: # If there were no results from query, return an empty array
             dt = ['float']*len(colnames)
-            simdata = np.zeros(0, dtype=zip(colnames,dt))
+            simdata = np.zeros(0, dtype=zip(colnames, dt))
         return simdata

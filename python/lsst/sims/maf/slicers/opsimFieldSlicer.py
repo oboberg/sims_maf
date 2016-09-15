@@ -48,6 +48,7 @@ class OpsimFieldSlicer(BaseSpatialSlicer):
     badval : float, optional
         Bad value flag, relevant for plotting. Default -666.
     """
+
     def __init__(self, simDataFieldIDColName='fieldID',
                  simDataFieldRaColName='fieldRA', simDataFieldDecColName='fieldDec',
                  fieldIDColName='fieldID', fieldRaColName='fieldRA', fieldDecColName='fieldDec',

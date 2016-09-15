@@ -61,7 +61,8 @@ class HealpixSlicer(BaseSpatialSlicer):
         List of chips to accept, if useCamera is True. This lets users turn 'on' only a subset of chips.
         Default 'all' - this uses all chips in the camera.
     """
-    def __init__(self, nside=128, lonCol ='fieldRA',
+
+    def __init__(self, nside=128, lonCol='fieldRA',
                  latCol='fieldDec', verbose=True, badval=hp.UNSEEN,
                  useCache=True, leafsize=100, radius=1.75,
                  useCamera=False, rotSkyPosColName='rotSkyPos', mjdColName='expMJD', chipNames='all'):

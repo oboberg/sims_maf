@@ -11,12 +11,12 @@ __all__ = ['ParallaxMetric', 'ProperMotionMetric', 'RadiusObsMetric',
 class ParallaxMetric(BaseMetric):
     """Calculate the uncertainty in a parallax measures given a serries of observations.
     """
+
     def __init__(self, metricName='parallax', m5Col='fiveSigmaDepth',
-                 mjdCol='expMJD', units = 'mas',
+                 mjdCol='expMJD', units='mas',
                  filterCol='filter', seeingCol='FWHMgeom', rmag=20.,
                  SedTemplate='flat', badval=-666,
                  atm_err=0.01, normalize=False, **kwargs):
-
         """ Instantiate metric.
 
         m5Col = column name for inidivual visit m5
@@ -91,10 +91,11 @@ class ParallaxMetric(BaseMetric):
 class ProperMotionMetric(BaseMetric):
     """Calculate the uncertainty in the returned proper motion.  Assuming Gaussian errors.
     """
+
     def __init__(self, metricName='properMotion',
                  m5Col='fiveSigmaDepth', mjdCol='expMJD', units='mas/yr',
                  filterCol='filter', seeingCol='FWHMgeom', rmag=20.,
-                 SedTemplate='flat', badval= -666,
+                 SedTemplate='flat', badval=-666,
                  atm_err=0.01, normalize=False,
                  baseline=10., **kwargs):
         """ Instantiate metric.
@@ -183,6 +184,7 @@ class ParallaxCoverageMetric(BaseMetric):
 
     Optionally also demand that there are obsevations above the snrLimit kwarg spanning thetaRange radians.
     """
+
     def __init__(self, metricName='ParallaxCoverageMetric', m5Col='fiveSigmaDepth',
                  mjdCol='expMJD', filterCol='filter', seeingCol='FWHMgeom',
                  rmag=20., SedTemplate='flat', badval=-666,
@@ -306,9 +308,10 @@ class ParallaxDcrDegenMetric(BaseMetric):
         are bad. Experience with fitting Monte Carlo simulations suggests the astrometric fits start
         becoming poor around a correlation of 0.7.
     """
+
     def __init__(self, metricName='ParallaxDcrDegenMetric', seeingCol='FWHMgeom',
                  m5Col='fiveSigmaDepth', atm_err=0.01, rmag=20., SedTemplate='flat',
-                 filterCol='filter', tol = 0.05, **kwargs):
+                 filterCol='filter', tol=0.05, **kwargs):
         self.m5Col = m5Col
         self.seeingCol = seeingCol
         self.filterCol = filterCol
