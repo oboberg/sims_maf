@@ -4,10 +4,8 @@ from builtins import str
 from builtins import zip
 from builtins import range
 from builtins import object
-# Base class for all 'Slicer' objects.
-#
 import inspect
-from io import StringIO
+from io import BytesIO
 import json
 import warnings
 import numpy as np
@@ -198,7 +196,7 @@ class BaseSlicer(with_metaclass(SlicerRegistry, object)):
         header['plotDict'] = plotDict
         for key in list(versionInfo.keys()):
             header[key] = versionInfo[key]
-        if hasattr(metricValues, 'mask'): # If it is a masked array
+        if hasattr(metricValues, 'mask'):  # If it is a masked array
             data = metricValues.data
             mask = metricValues.mask
             fill = metricValues.fill_value
@@ -209,13 +207,13 @@ class BaseSlicer(with_metaclass(SlicerRegistry, object)):
         # npz file acts like dictionary: each keyword/value pair below acts as a
         # dictionary in loaded NPZ file.
         np.savez(outfilename,
-                 header=header, # header saved as dictionary
-                 metricValues=data, # metric data values
-                 mask=mask, # metric mask values
-                 fill=fill, # metric badval/fill val
-                 slicer_init=self.slicer_init, # dictionary of instantiation parameters
-                 slicerName=self.slicerName, # class name
-                 slicePoints=self.slicePoints, # slicePoint metadata saved (is a dictionary)
+                 header=header,  # header saved as dictionary
+                 metricValues=data,  # metric data values
+                 mask=mask,  # metric mask values
+                 fill=fill,  # metric badval/fill val
+                 slicer_init=self.slicer_init,  # dictionary of instantiation parameters
+                 slicerName=self.slicerName,  # class name
+                 slicePoints=self.slicePoints,  # slicePoint metadata saved (is a dictionary)
                  slicerNSlice=self.nslice,
                  slicerShape=self.shape)
 
@@ -251,7 +249,7 @@ class BaseSlicer(with_metaclass(SlicerRegistry, object)):
         # Bail if this is not a good data type for JSON.
         if not (metricValues.dtype == 'float') or (metricValues.dtype == 'int'):
             warnings.warn('Cannot generate JSON.')
-            io = StringIO()
+            io = BytesIO()
             json.dump(['Cannot generate JSON for this file.'], io)
             return None
         # Else put everything together for JSON output.
@@ -330,7 +328,7 @@ class BaseSlicer(with_metaclass(SlicerRegistry, object)):
             elif self.slicerName == 'UniSlicer':
                 metric.append([metricValues[0]])
         # Write out JSON output.
-        io = StringIO()
+        io = BytesIO()
         json.dump([header, metric], io)
         return io
 
