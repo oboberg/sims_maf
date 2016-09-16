@@ -1,7 +1,7 @@
+#!/usr/bin/env python
 from builtins import zip
 from builtins import str
 from builtins import range
-#!/usr/bin/env python
 
 import os
 import argparse
@@ -12,7 +12,6 @@ import matplotlib
 # Set matplotlib backend (to create plots where DISPLAY is not set).
 matplotlib.use('Agg')
 import matplotlib.cm as cm
-
 import lsst.sims.maf.db as db
 import lsst.sims.maf.metrics as metrics
 import lsst.sims.maf.slicers as slicers

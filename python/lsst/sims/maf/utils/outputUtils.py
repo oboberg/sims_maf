@@ -3,6 +3,7 @@ from builtins import map
 from builtins import range
 import sys
 import numpy as np
+import six
 
 __all__ = ['nameSanitize', 'printDict', 'printSimpleDict']
 
@@ -96,7 +97,9 @@ def printDict(content, label, filehandle=None, delimiter=' ', _level=0):
         indent += '%s' % (baseindent)
     # Print data (this is also the termination of the recursion if given nested dictionaries).
     if not isinstance(content, dict):
-        if isinstance(content, str) or isinstance(content, float) or isinstance(content, int):
+        if isinstance(content, six.string_types) or isinstance(content, float) or \
+           isinstance(content, int) or \
+           isinstance(content, np.string_):
             print >> filehandle, '%s%s%s%s' % (indent, label, delimiter, str(content))
         else:
             if isinstance(content, np.ndarray):

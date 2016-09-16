@@ -194,7 +194,7 @@ class BaseSlicer(with_metaclass(SlicerRegistry, object)):
             displayDict = {'group': 'Ungrouped'}
         header['displayDict'] = displayDict
         header['plotDict'] = plotDict
-        for key in list(versionInfo.keys()):
+        for key in versionInfo:
             header[key] = versionInfo[key]
         if hasattr(metricValues, 'mask'):  # If it is a masked array
             data = metricValues.data

@@ -50,7 +50,7 @@ class TwoDMap(BasePlotter):
         plotDict = {}
         plotDict.update(self.defaultPlotDict)
         # Don't clobber with None
-        for key in list(userPlotDict.keys()):
+        for key in userPlotDict:
             if userPlotDict[key] is not None:
                 plotDict[key] = userPlotDict[key]
 
@@ -122,7 +122,7 @@ class VisitPairsHist(BasePlotter):
         plotDict = {}
         plotDict.update(self.defaultPlotDict)
         # Don't clobber with None
-        for key in list(userPlotDict.keys()):
+        for key in userPlotDict:
             if userPlotDict[key] is not None:
                 plotDict[key] = userPlotDict[key]
 

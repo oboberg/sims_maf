@@ -24,7 +24,7 @@ def makeDataValues(size=100, minval=0., maxval=1., ramin=0, ramax=2*np.pi,
         randorder = np.random.rand(size)
         randind = np.argsort(randorder)
         datavalues = datavalues[randind]
-    datavalues = np.array(list(zip(datavalues)), dtype=[('testdata', 'float')])
+    datavalues = np.array(datavalues, dtype=[('testdata', 'float')])
     data.append(datavalues)
     # Generate RA/Dec values equally spaces on sphere between ramin/max, decmin/max.
     ra = np.arange(0, size, dtype='float')
@@ -33,7 +33,7 @@ def makeDataValues(size=100, minval=0., maxval=1., ramin=0, ramax=2*np.pi,
         randorder = np.random.rand(size)
         randind = np.argsort(randorder)
         ra = ra[randind]
-    ra = np.array(list(zip(ra)), dtype=[('ra', 'float')])
+    ra = np.array(ra, dtype=[('ra', 'float')])
     data.append(ra)
     v = np.arange(0, size, dtype='float')
     v *= ((np.cos(decmax+np.pi) + 1.)/2.0 - (np.cos(decmin+np.pi)+1.)/2.0) / (v.max() - v.min())
@@ -43,7 +43,7 @@ def makeDataValues(size=100, minval=0., maxval=1., ramin=0, ramax=2*np.pi,
         randorder = np.random.rand(size)
         randind = np.argsort(randorder)
         dec = dec[randind]
-    dec = np.array(list(zip(dec)), dtype=[('dec', 'float')])
+    dec = np.array(dec, dtype=[('dec', 'float')])
     data.append(dec)
     # Add in rotation angle
     rot = np.random.rand(len(dec))*2*np.pi

@@ -1,5 +1,5 @@
-from builtins import zip
 #!/usr/bin/env python
+from builtins import zip
 import os
 import argparse
 import warnings
@@ -8,7 +8,6 @@ import matplotlib
 matplotlib.use('Agg')
 import numpy as np
 import healpy as hp
-
 import lsst.sims.maf.db as db
 import lsst.sims.maf.metrics as metrics
 import lsst.sims.maf.slicers as slicers
@@ -703,7 +702,7 @@ def makeBundleList(dbFile, runName=None, nside=64, benchmark='design',
             'g,r,i,z': 'filter="g" or filter="r" or filter="i" or filter="z"',
             'all': ''}
 
-    for sql in list(sqls.keys()):
+    for sql in sqls:
         for period in periods:
             displayDict = {'group': phaseGroup,
                            'subgroup': 'period=%.2f days, filter=%s' % (period, sql),

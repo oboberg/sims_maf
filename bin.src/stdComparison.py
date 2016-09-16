@@ -1,5 +1,5 @@
-from builtins import range
 #!/usr/bin/env python
+from builtins import range
 import os
 import argparse
 from lsst.sims.maf.viz import MafRunComparison
