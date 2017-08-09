@@ -22,6 +22,7 @@ class SimpleDatabase(Database):
                                              defaultdbTables=defaultdbTables,
                                              *args, **kwargs)
         self.defaultTable = defaultTable
+        self.summaryTable = defaultTable
 
     def fetchMetricData(self, colnames, sqlconstraint, groupBy=None,
                         tableName=None, **kwargs):
