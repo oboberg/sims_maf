@@ -109,7 +109,9 @@ class MetricBundleGroup(object):
         # Set the table we're going to be querying.
         self.dbTable = dbTable
         if self.dbTable is None:
-            self.dbTable = self.dbObj.summaryTable
+            # Make it possible to pass None in for unit tests.
+            if self.dbObj is not None:
+                self.dbTable = self.dbObj.summaryTable
 
         # Check the resultsDb (optional).
         if resultsDb is not None:
