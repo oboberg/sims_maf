@@ -48,6 +48,15 @@ def glanceBundle(colmap_dict=None, nside=64):
     bundle = metricBundles.MetricBundle(metric, slicer, sql, displayDict=displayDict)
     bundleList.append(bundle)
 
+    # Slewtime stats
+    metric = metrics.MedianMetric(col=colmap_dict['slewtime'])
+    bundle = metricBundles.MetricBundle(metric, slicer, sql, displayDict=displayDict)
+    bundleList.append(bundle)
+
+    metric = metrics.MeanMetric(col=colmap_dict['slewtime'])
+    bundle = metricBundles.MetricBundle(metric, slicer, sql, displayDict=displayDict)
+    bundleList.append(bundle)
+
     # Total number of filter changes
     metric = metrics.NChangesMetric(col=colmap_dict['filter'], orderBy=colmap_dict['mjd'])
     bundle = metricBundles.MetricBundle(metric, slicer, sql, displayDict=displayDict)
@@ -110,7 +119,7 @@ def glanceBundle(colmap_dict=None, nside=64):
     slicer = slicers.OneDSlicer(sliceColName=colmap_dict['slewtime'], binsize=2)
     metric = metrics.CountMetric(col=colmap_dict['slewtime'], metricName='Slew Time Histogram')
     bundle = metricBundles.MetricBundle(metric, slicer, sql, plotDict={'logScale': True, 'ylabel': 'Count'},
-                                        summaryMetrics=standardStats, displayDict=displayDict)
+                                        displayDict=displayDict)
     bundleList.append(bundle)
 
     # A few basic maps
