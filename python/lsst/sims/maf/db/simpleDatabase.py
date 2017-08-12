@@ -9,7 +9,7 @@ __all__ = ['SimpleDatabase']
 
 class SimpleDatabase(Database):
     def __init__(self, database, driver='sqlite', host=None, port=None, dbTables=None, 
-                 defaultTable='observations', *args, **kwargs):
+                 defaultTable='observations', groupBy=None, *args, **kwargs):
         if 'defaultdbTables' in kwargs:
             defaultdbTables = kwargs.get('defaultdbTables')
             # Remove this kwarg since we're sending it on explicitly
@@ -23,9 +23,10 @@ class SimpleDatabase(Database):
                                              *args, **kwargs)
         self.defaultTable = defaultTable
         self.summaryTable = defaultTable
+        self.groupBy = groupBy
 
-    def fetchMetricData(self, colnames, sqlconstraint, groupBy=None,
-                        tableName=None, **kwargs):
+    def fetchMetricData(self, colnames, sqlconstraint,
+                        tableName=None, groupBy=None, **kwargs):
         """
         Fetch 'colnames' from 'tableName'.
         """
@@ -33,10 +34,10 @@ class SimpleDatabase(Database):
             tableName = self.defaultTable
 
         table = self.tables[tableName]
-        if groupBy is not None:
+        if self.groupBy is not None:
             metricdata = table.query_columns_Array(chunk_size = self.chunksize,
                                                    constraint = sqlconstraint,
-                                                   colnames = colnames, groupByCol = groupBy)
+                                                   colnames = colnames, groupByCol = self.groupBy)
         else:
             metricdata = table.query_columns_Array(chunk_size = self.chunksize,
                                                    constraint = sqlconstraint,
