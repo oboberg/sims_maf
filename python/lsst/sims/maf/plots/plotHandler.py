@@ -4,6 +4,8 @@ from builtins import object
 import os
 import numpy as np
 import warnings
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 import lsst.sims.maf.utils as utils
 

@@ -5,6 +5,7 @@ import lsst.sims.maf.db as db
 import lsst.sims.maf.metricBundles as mb
 import lsst.sims.maf.batches as batches
 import argparse
+import os
 
 def connectDb(dbfile):
     version = db.testOpsimVersion(dbfile)
