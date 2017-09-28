@@ -21,7 +21,7 @@ def testOpsimVersion(database, driver='sqlite', host=None, port=None):
     opsdb.close()
     return version
 
-def OpsimDatabase(database, driver='sqlite', host=None, port=None, defaultTable=None,
+def OpsimDatabase(database, driver='sqlite', host=None, port=None,
                   longstrings=False, verbose=False):
     """Convenience method to return an appropriate OpsimDatabaseV3/V4 version.
 
@@ -32,14 +32,14 @@ def OpsimDatabase(database, driver='sqlite', host=None, port=None, defaultTable=
     version = testOpsimVersion(database)
     if version == 'V4':
         opsdb = OpsimDatabaseV4(database, driver=driver, host=host, port=port,
-                                defaultTable=defaultTable, longstrings=longstrings, verbose=verbose)
+                                longstrings=longstrings, verbose=verbose)
     elif version == 'V3':
         opsdb =  OpsimDatabaseV3(database, driver=driver, host=host, port=port,
-                                 defaultTable=defeaultTable, longstrings=longstrings, verbose=verbose)
+                                 longstrings=longstrings, verbose=verbose)
     else:
         warnings.warn('Could not identify opsim database version; just using Database class instead')
         opsdb = Database(database, driver=driver, host=host, port=port,
-                         defaultTable=defaultTable, longstrings=longstrings, verbose=verbose)
+                         longstrings=longstrings, verbose=verbose)
     return opsdb
 
 
@@ -94,8 +94,7 @@ class BaseOpsimDatabase(Database):
                                                                 groupBy=groupBy, tableName=tableName)
         return metricdata
 
-    def fetchFieldsFromSummaryTable(self, sqlconstraint=None, raColName=None, decColName=None,
-                                    degreesToRadians=False):
+    def fetchFieldsFromSummaryTable(self, sqlconstraint=None, raColName=None, decColName=None):
         """
         Fetch field information (fieldID/RA/Dec) from the summary table.
 
@@ -116,7 +115,7 @@ class BaseOpsimDatabase(Database):
         Returns
         -------
         np.recarray
-            Structured array containing the field data (fieldID, fieldRA, fieldDec). RA/Dec in degrees.
+            Structured array containing the field data (fieldID, fieldRA, fieldDec). RA/Dec in radians.
         """
         if raColName is None:
             raColName = self.raCol
@@ -125,7 +124,7 @@ class BaseOpsimDatabase(Database):
         fielddata = self.query_columns(self.defaultTable,
                                        colnames=[self.fieldIdCol, raColName, decColName],
                                        sqlconstraint=sqlconstraint, groupBy=self.fieldIdCol)
-        if degreesToRadians:
+        if self.raDecInDeg:
             fielddata[raColName] = np.radians(fielddata[raColName])
             fielddata[decColName] = np.radians(fielddata[decColName])
         return fielddata
@@ -287,13 +286,7 @@ class OpsimDatabaseV4(BaseOpsimDatabase):
         self.sessionDateCol = 'sessionDate'
         self.runCommentCol = 'runComment'
         self.runLengthParam = 'survey/duration'
-
-    def fetchFieldsFromSummaryTable(self, sqlconstraint=None, raColName=None, decColName=None,
-                                    degreesToRadians=True):
-        f = super(OpsimDatabaseV4, self).fetchFieldsFromSummaryTable(sqlconstraint=sqlconstraint,
-                                                                     raColName=raColName, decColName=decColName,
-                                                                     degreesToRadians=degreesToRadians)
-        return f
+        self.raDecInDeg = True
 
     def fetchFieldsFromFieldTable(self, propId=None, degreesToRadians=True):
         """
@@ -642,13 +635,7 @@ class OpsimDatabaseV3(BaseOpsimDatabase):
         self.sessionDateCol = 'sessionDate'
         self.runCommentCol = 'runComment'
         self.runLengthParam = 'nRun'
-
-    def fetchFieldsFromSummaryTable(self, sqlconstraint=None, raColName=None, decColName=None,
-                                    degreesToRadians=False):
-        f = super(OpsimDatabaseV3, self).fetchFieldsFromSummaryTable(sqlconstraint=sqlconstraint,
-                                                                     raColName=raColName, decColName=decColName,
-                                                                     degreesToRadians=degreesToRadians)
-        return f
+        self.raDecInDeg = False
 
     def fetchFieldsFromFieldTable(self, propID=None, degreesToRadians=True):
         """
