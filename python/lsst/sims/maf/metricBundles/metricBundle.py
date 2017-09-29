@@ -240,7 +240,7 @@ class MetricBundle(object):
         else:
             # Add identity metric to unislicer metric values (to get them into resultsDB).
             if self.slicer.slicerName == 'UniSlicer':
-                self.summaryMetrics = [metrics.IdentityMetric('metricdata')]
+                self.summaryMetrics = [metrics.IdentityMetric()]
             else:
                 self.summaryMetrics = []
 
@@ -324,8 +324,11 @@ class MetricBundle(object):
         # If we still need to auto-generate a caption, do it.
         if self.displayDict['caption'] is None:
             if self.metric.comment is None:
-                caption = self.metric.name + ' calculated on a %s' % (self.slicer.slicerName)
-                caption += ' basis, using a subset of data selected via %s.' % (self.constraint)
+                caption = self.metric.name + ' calculated on a %s basis' % (self.slicer.slicerName)
+                if self.constraint!='' and self.constraint is not None:
+                    caption += ' using a subset of data selected via %s.' % (self.constraint)
+                else:
+                    caption += '.'
             else:
                 caption = self.metric.comment
             if 'zp' in self.plotDict:
