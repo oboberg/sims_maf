@@ -377,7 +377,8 @@ class BaseSkyMap(BasePlotter):
                                 'colorMin': None, 'colorMax': None, 'percentileClip': None,
                                 'cbar_edge': True, 'plotMask': False, 'metricIsColor': False,
                                 'raCen': 0.0, 'mwZone': True, 'bgcolor': 'gray',
-                                'labelsize': None, 'fontsize': None, 'figsize': None}
+                                'labelsize': None, 'fontsize': None, 'figsize': None,
+                                'sub':None}
 
     def _plot_tissot_ellipse(self, lon, lat, radius, ax=None, **kwargs):
         """Plot Tissot Ellipse/Tissot Indicatrix
@@ -459,7 +460,13 @@ class BaseSkyMap(BasePlotter):
         fig = plt.figure(fignum, figsize=plotDict['figsize'])
         # other projections available include
         # ['aitoff', 'hammer', 'lambert', 'mollweide', 'polar', 'rectilinear']
-        ax = fig.add_subplot(111, projection=plotDict['projection'])
+        if plotDict['sub'] is None:
+            ax = fig.add_subplot(111, projection=plotDict['projection'])
+        else:
+            ax = fig.add_subplot(plotDict['sub'][0],
+                                 plotDict['sub'][1],
+                                 plotDict['sub'][2],
+                                 projection=plotDict['projection'])
         # Set up valid datapoints and colormin/max values.
         if plotDict['plotMask']:
             # Plot all data points.
