@@ -4,6 +4,8 @@ import warnings
 import healpy as hp
 from matplotlib import colors
 from matplotlib import ticker
+import matplotlib
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from matplotlib.ticker import FuncFormatter

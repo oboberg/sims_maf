@@ -15,8 +15,8 @@ from builtins import str
 
 import os, argparse
 import numpy as np
-#import matplotlib
-#matplotlib.use('Agg')
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 from matplotlib.lines import Line2D
@@ -230,7 +230,7 @@ def runSlices(opsimName, metadata, simdata, fields, bins, args, opsDb, verbose=F
 
 def stitchMovie(metricList, args):
     # Create a movie slicer to access the movie generation routine.
-    movieslicer = slicers.MovieSlicer()
+    movieslicer = slicers.MovieSlicer(forceNoFfmpeg=True)
     for metric in metricList:
         # Identify filenames.
         outfileroot = metric.name

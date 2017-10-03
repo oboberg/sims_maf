@@ -19,7 +19,7 @@ class MovieSlicer(BaseSlicer):
     """movie Slicer."""
     def __init__(self, sliceColName=None, sliceColUnits=None,
                  bins=None, binMin=None, binMax=None, binsize=None,
-                 verbose=True, badval=0, cumulative=True, forceNoFfmpeg=False):
+                 verbose=True, badval=0, cumulative=True, forceNoFfmpeg=True):
         """
         The 'movieSlicer' acts similarly to the OneDSlicer (slices on one data column).
         However, the data slices from the movieSlicer are intended to be fed to another slicer, which then
